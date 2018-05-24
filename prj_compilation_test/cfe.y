@@ -119,7 +119,11 @@ instruction	:
 	|	appel {$$ = $1;}
 ; 
 iteration	:	
-		FOR '(' affectation ';' condition ';' affectation ')' instruction {$$ = concat(9,"for","(",$3,";",$5,";",$7,")",$9) ; }
+		FOR '(' affectation ';' condition ';' affectation ')' instruction {
+            char* L1 = newEtq();
+            char* L2 = newEtq();
+            $$ = concat(18,$3,"\n",L1,":if(",$5,")","goto ",L2,";",$9,"\n",$7,"\n","goto ",L1,";\n",L2,":") ; 
+        }
 	|	WHILE '(' condition ')' instruction /*{$$ = concat(5,"while","(",$3,")",$5);}*/
     {
         char* L1 = newEtq();
@@ -140,7 +144,10 @@ selection	:
             char* L2 = newEtq();
             $$ = concat(16,"if","(",$3,") goto ",L1,";\n",$7,"goto ",L2,";\n",L1,": ",$5,"\n",L2,": ");
         }
-	|	SWITCH '(' expression ')' instruction {$$ = concat( 5 , "switch","(",$3,")",$5);}
+	|	SWITCH '(' expression ')' instruction {
+    
+            $$ = concat( 5 , "switch","(",$3,")",$5);
+        }
 	|	CASE CONSTANTE ':' instruction {$$ = concat(4,"case",$2,":",$4);}
 	|	DEFAULT ':' instruction {$$ = concat(3,"default",":",$3);}
 ;
