@@ -537,14 +537,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    67,    67,    70,    71,    74,    75,    78,    81,    82,
-      85,    86,    89,    90,    93,    94,    97,    99,   100,   103,
-     106,   107,   110,   111,   112,   113,   114,   115,   118,   119,
-     128,   134,   135,   136,   137,   140,   141,   142,   145,   148,
-     151,   154,   155,   158,   159,   160,   161,   162,   163,   166,
-     168,   169,   172,   173,   174,   175,   178,   179,   180,   181,
-     182,   183,   184,   185,   188,   189,   192,   193,   194,   195,
-     196,   197
+       0,    67,    67,    74,    75,    78,    79,    82,    85,    86,
+      89,    90,    93,    94,    97,    98,   101,   103,   104,   107,
+     110,   111,   114,   115,   116,   117,   118,   119,   122,   123,
+     132,   138,   143,   144,   145,   148,   149,   150,   153,   156,
+     159,   162,   163,   166,   167,   168,   169,   170,   171,   174,
+     176,   177,   180,   181,   182,   183,   186,   187,   188,   189,
+     190,   191,   192,   193,   196,   197,   200,   201,   202,   203,
+     204,   205
 };
 #endif
 
@@ -1565,366 +1565,374 @@ yyreduce:
     {
         case 2:
 #line 67 "./cfe.y"
-    {fprintf(stdout, "%s%s\n", (yyvsp[(1) - (2)].chaine),(yyvsp[(2) - (2)].chaine));}
+    {
+            FILE* fichier = fopen("out.c","w");
+            fprintf(fichier, "%s%s\n", (yyvsp[(1) - (2)].chaine),(yyvsp[(2) - (2)].chaine));
+            fclose(fichier);
+        }
     break;
 
   case 3:
-#line 70 "./cfe.y"
-    { (yyval.chaine) = concat(2, (yyvsp[(1) - (2)].chaine), (yyvsp[(2) - (2)].chaine));}
-    break;
-
-  case 4:
-#line 71 "./cfe.y"
-    {(yyval.chaine) = "";}
-    break;
-
-  case 5:
 #line 74 "./cfe.y"
     { (yyval.chaine) = concat(2, (yyvsp[(1) - (2)].chaine), (yyvsp[(2) - (2)].chaine));}
     break;
 
-  case 6:
+  case 4:
 #line 75 "./cfe.y"
+    {(yyval.chaine) = "";}
+    break;
+
+  case 5:
+#line 78 "./cfe.y"
+    { (yyval.chaine) = concat(2, (yyvsp[(1) - (2)].chaine), (yyvsp[(2) - (2)].chaine));}
+    break;
+
+  case 6:
+#line 79 "./cfe.y"
     {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
     break;
 
   case 7:
-#line 78 "./cfe.y"
+#line 82 "./cfe.y"
     {(yyval.chaine) = concat(4, (yyvsp[(1) - (3)].chaine), " ", (yyvsp[(2) - (3)].chaine), ";\n");}
     break;
 
   case 8:
-#line 81 "./cfe.y"
+#line 85 "./cfe.y"
     {(yyval.chaine) = concat(3, (yyvsp[(1) - (3)].chaine), ",", (yyvsp[(3) - (3)].chaine));}
     break;
 
   case 9:
-#line 82 "./cfe.y"
+#line 86 "./cfe.y"
     {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
     break;
 
   case 10:
-#line 85 "./cfe.y"
+#line 89 "./cfe.y"
     {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
     break;
 
   case 11:
-#line 86 "./cfe.y"
+#line 90 "./cfe.y"
     {(yyval.chaine) = concat(4, (yyvsp[(1) - (4)].chaine), "[",(yyvsp[(3) - (4)].chaine), "]");}
     break;
 
   case 12:
-#line 89 "./cfe.y"
+#line 93 "./cfe.y"
     {(yyval.chaine) = concat(10,(yyvsp[(1) - (9)].chaine)," ",(yyvsp[(2) - (9)].chaine),"(",(yyvsp[(4) - (9)].chaine),")","{\n",(yyvsp[(7) - (9)].chaine),(yyvsp[(8) - (9)].chaine),"}\n");}
     break;
 
   case 13:
-#line 90 "./cfe.y"
+#line 94 "./cfe.y"
     {(yyval.chaine) = concat(7, "extern ", (yyvsp[(2) - (7)].chaine)," ", (yyvsp[(3) - (7)].chaine), "(", (yyvsp[(5) - (7)].chaine), ");\n");}
     break;
 
   case 14:
-#line 93 "./cfe.y"
+#line 97 "./cfe.y"
     {(yyval.chaine) = "void";}
     break;
 
   case 15:
-#line 94 "./cfe.y"
+#line 98 "./cfe.y"
     {(yyval.chaine) = "int";}
     break;
 
   case 16:
-#line 97 "./cfe.y"
+#line 101 "./cfe.y"
     {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
     break;
 
   case 17:
-#line 99 "./cfe.y"
+#line 103 "./cfe.y"
     {(yyval.chaine) = concat(3,(yyvsp[(1) - (3)].chaine),",",(yyvsp[(3) - (3)].chaine));}
     break;
 
   case 18:
-#line 100 "./cfe.y"
+#line 104 "./cfe.y"
     {(yyval.chaine)="";}
     break;
 
   case 19:
-#line 103 "./cfe.y"
+#line 107 "./cfe.y"
     {(yyval.chaine) = concat(2,"int ",(yyvsp[(2) - (2)].chaine));}
     break;
 
   case 20:
-#line 106 "./cfe.y"
+#line 110 "./cfe.y"
     {(yyval.chaine) = concat(2,(yyvsp[(1) - (2)].chaine),(yyvsp[(2) - (2)].chaine));}
     break;
 
   case 21:
-#line 107 "./cfe.y"
+#line 111 "./cfe.y"
     {(yyval.chaine) = "";}
     break;
 
   case 22:
-#line 110 "./cfe.y"
-    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
-    break;
-
-  case 23:
-#line 111 "./cfe.y"
-    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
-    break;
-
-  case 24:
-#line 112 "./cfe.y"
-    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
-    break;
-
-  case 25:
-#line 113 "./cfe.y"
-    {(yyval.chaine) = concat(2,(yyvsp[(1) - (2)].chaine),";\n");}
-    break;
-
-  case 26:
 #line 114 "./cfe.y"
     {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
     break;
 
-  case 27:
+  case 23:
 #line 115 "./cfe.y"
     {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
     break;
 
-  case 28:
+  case 24:
+#line 116 "./cfe.y"
+    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
+    break;
+
+  case 25:
+#line 117 "./cfe.y"
+    {(yyval.chaine) = concat(2,(yyvsp[(1) - (2)].chaine),";\n");}
+    break;
+
+  case 26:
 #line 118 "./cfe.y"
+    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
+    break;
+
+  case 27:
+#line 119 "./cfe.y"
+    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
+    break;
+
+  case 28:
+#line 122 "./cfe.y"
     {(yyval.chaine) = concat(9,"for","(",(yyvsp[(3) - (9)].chaine),";",(yyvsp[(5) - (9)].chaine),";",(yyvsp[(7) - (9)].chaine),")",(yyvsp[(9) - (9)].chaine)) ; }
     break;
 
   case 29:
-#line 120 "./cfe.y"
+#line 124 "./cfe.y"
     {
         char* L1 = newEtq();
         char* L2 = newEtq();
         
-        (yyval.chaine) = concat(14,"goto ",L1,";\n",L2,":",(yyvsp[(5) - (5)].chaine),L1,": if","(",(yyvsp[(3) - (5)].chaine),")","goto ",L2,"\n");
+        (yyval.chaine) = concat(14,"goto ",L1,";\n",L2,":",(yyvsp[(5) - (5)].chaine),L1,": if","(",(yyvsp[(3) - (5)].chaine),")","goto ",L2,";\n");
     }
     break;
 
   case 30:
-#line 129 "./cfe.y"
+#line 133 "./cfe.y"
     {   
             char* L = newEtq();
-            (yyval.chaine) = concat(9,"if","(!",(yyvsp[(3) - (5)].chaine),") goto ",L,"\n",(yyvsp[(5) - (5)].chaine),L,": ");
+            (yyval.chaine) = concat(9,"if","(!",(yyvsp[(3) - (5)].chaine),") goto ",L,";\n",(yyvsp[(5) - (5)].chaine),L,": ");
         
         }
     break;
 
   case 31:
-#line 134 "./cfe.y"
-    {(yyval.chaine) = concat(9,"if","(!",(yyvsp[(3) - (7)].chaine),") goto L1\n",(yyvsp[(5) - (7)].chaine),"goto L2\n","L1: ",(yyvsp[(7) - (7)].chaine),"L2 : ");}
+#line 138 "./cfe.y"
+    {
+            char* L1 = newEtq();
+            char* L2 = newEtq();
+            (yyval.chaine) = concat(16,"if","(",(yyvsp[(3) - (7)].chaine),") goto ",L1,";\n",(yyvsp[(7) - (7)].chaine),"goto ",L2,";\n",L1,": ",(yyvsp[(5) - (7)].chaine),"\n",L2,": ");
+        }
     break;
 
   case 32:
-#line 135 "./cfe.y"
+#line 143 "./cfe.y"
     {(yyval.chaine) = concat( 5 , "switch","(",(yyvsp[(3) - (5)].chaine),")",(yyvsp[(5) - (5)].chaine));}
     break;
 
   case 33:
-#line 136 "./cfe.y"
+#line 144 "./cfe.y"
     {(yyval.chaine) = concat(4,"case",(yyvsp[(2) - (4)].chaine),":",(yyvsp[(4) - (4)].chaine));}
     break;
 
   case 34:
-#line 137 "./cfe.y"
+#line 145 "./cfe.y"
     {(yyval.chaine) = concat(3,"default",":",(yyvsp[(3) - (3)].chaine));}
     break;
 
   case 35:
-#line 140 "./cfe.y"
+#line 148 "./cfe.y"
     {(yyval.chaine) = concat(2,"break",";\n");}
     break;
 
   case 36:
-#line 141 "./cfe.y"
+#line 149 "./cfe.y"
     {(yyval.chaine) = concat(2,"return ",";\n");}
     break;
 
   case 37:
-#line 142 "./cfe.y"
+#line 150 "./cfe.y"
     {(yyval.chaine) = concat(3,"return ",(yyvsp[(2) - (3)].chaine),";\n");}
     break;
 
   case 38:
-#line 145 "./cfe.y"
+#line 153 "./cfe.y"
     {(yyval.chaine) = concat(3,(yyvsp[(1) - (3)].chaine)," = ",(yyvsp[(3) - (3)].chaine));}
     break;
 
   case 39:
-#line 148 "./cfe.y"
+#line 156 "./cfe.y"
     {(yyval.chaine) = concat(4,"{\n",(yyvsp[(2) - (4)].chaine),(yyvsp[(3) - (4)].chaine),"}\n");}
     break;
 
   case 40:
-#line 151 "./cfe.y"
+#line 159 "./cfe.y"
     {(yyval.chaine) = concat(5,(yyvsp[(1) - (5)].chaine),"(",(yyvsp[(3) - (5)].chaine),")",";\n");}
     break;
 
   case 41:
-#line 154 "./cfe.y"
-    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine) ;}
-    break;
-
-  case 42:
-#line 155 "./cfe.y"
-    {(yyval.chaine) = concat(4,(yyvsp[(1) - (4)].chaine),"[",(yyvsp[(3) - (4)].chaine),"]");}
-    break;
-
-  case 43:
-#line 158 "./cfe.y"
-    {(yyval.chaine) = concat(3,"(",(yyvsp[(2) - (3)].chaine),")");}
-    break;
-
-  case 44:
-#line 159 "./cfe.y"
-    {(yyval.chaine)= concat(3,(yyvsp[(1) - (3)].chaine),(yyvsp[(2) - (3)].chaine),(yyvsp[(3) - (3)].chaine));}
-    break;
-
-  case 45:
-#line 160 "./cfe.y"
-    {(yyval.chaine) = concat(2,"-",(yyvsp[(2) - (2)].chaine));}
-    break;
-
-  case 46:
-#line 161 "./cfe.y"
-    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine) ;}
-    break;
-
-  case 47:
 #line 162 "./cfe.y"
     {(yyval.chaine) = (yyvsp[(1) - (1)].chaine) ;}
     break;
 
-  case 48:
+  case 42:
 #line 163 "./cfe.y"
+    {(yyval.chaine) = concat(4,(yyvsp[(1) - (4)].chaine),"[",(yyvsp[(3) - (4)].chaine),"]");}
+    break;
+
+  case 43:
+#line 166 "./cfe.y"
+    {(yyval.chaine) = concat(3,"(",(yyvsp[(2) - (3)].chaine),")");}
+    break;
+
+  case 44:
+#line 167 "./cfe.y"
+    {(yyval.chaine)= concat(3,(yyvsp[(1) - (3)].chaine),(yyvsp[(2) - (3)].chaine),(yyvsp[(3) - (3)].chaine));}
+    break;
+
+  case 45:
+#line 168 "./cfe.y"
+    {(yyval.chaine) = concat(2,"-",(yyvsp[(2) - (2)].chaine));}
+    break;
+
+  case 46:
+#line 169 "./cfe.y"
+    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine) ;}
+    break;
+
+  case 47:
+#line 170 "./cfe.y"
+    {(yyval.chaine) = (yyvsp[(1) - (1)].chaine) ;}
+    break;
+
+  case 48:
+#line 171 "./cfe.y"
     {(yyval.chaine) = concat(4,(yyvsp[(1) - (4)].chaine),"(",(yyvsp[(3) - (4)].chaine),")") ;}
     break;
 
   case 49:
-#line 166 "./cfe.y"
+#line 174 "./cfe.y"
     {(yyval.chaine) = (yyvsp[(1) - (1)].chaine);}
     break;
 
   case 50:
-#line 168 "./cfe.y"
+#line 176 "./cfe.y"
     {(yyval.chaine) = concat(3,(yyvsp[(1) - (3)].chaine),",",(yyvsp[(3) - (3)].chaine));}
     break;
 
   case 51:
-#line 169 "./cfe.y"
+#line 177 "./cfe.y"
     {(yyval.chaine) = "";}
     break;
 
   case 52:
-#line 172 "./cfe.y"
+#line 180 "./cfe.y"
     {(yyval.chaine) = concat(4,"!","(",(yyvsp[(3) - (4)].chaine),")");}
     break;
 
   case 53:
-#line 173 "./cfe.y"
+#line 181 "./cfe.y"
     {(yyval.chaine) = concat(3,(yyvsp[(1) - (3)].chaine),(yyvsp[(2) - (3)].chaine),(yyvsp[(3) - (3)].chaine));}
     break;
 
   case 54:
-#line 174 "./cfe.y"
+#line 182 "./cfe.y"
     {(yyval.chaine) = concat(3,"(",(yyvsp[(2) - (3)].chaine),")");}
     break;
 
   case 55:
-#line 175 "./cfe.y"
+#line 183 "./cfe.y"
     {(yyval.chaine) = concat(3,(yyvsp[(1) - (3)].chaine),(yyvsp[(2) - (3)].chaine),(yyvsp[(3) - (3)].chaine));}
     break;
 
   case 56:
-#line 178 "./cfe.y"
+#line 186 "./cfe.y"
     {(yyval.chaine) = "+";}
     break;
 
   case 57:
-#line 179 "./cfe.y"
+#line 187 "./cfe.y"
     {(yyval.chaine) = "-";}
     break;
 
   case 58:
-#line 180 "./cfe.y"
+#line 188 "./cfe.y"
     {(yyval.chaine) = "*";}
     break;
 
   case 59:
-#line 181 "./cfe.y"
+#line 189 "./cfe.y"
     {(yyval.chaine) = "/";}
     break;
 
   case 60:
-#line 182 "./cfe.y"
+#line 190 "./cfe.y"
     {(yyval.chaine) = "<<";}
     break;
 
   case 61:
-#line 183 "./cfe.y"
+#line 191 "./cfe.y"
     {(yyval.chaine) = ">>";}
     break;
 
   case 62:
-#line 184 "./cfe.y"
+#line 192 "./cfe.y"
     {(yyval.chaine) = "&";}
     break;
 
   case 63:
-#line 185 "./cfe.y"
+#line 193 "./cfe.y"
     {(yyval.chaine) = "|";}
     break;
 
   case 64:
-#line 188 "./cfe.y"
+#line 196 "./cfe.y"
     {(yyval.chaine) = "&&";}
     break;
 
   case 65:
-#line 189 "./cfe.y"
+#line 197 "./cfe.y"
     {(yyval.chaine) = "||";}
     break;
 
   case 66:
-#line 192 "./cfe.y"
+#line 200 "./cfe.y"
     {(yyval.chaine) = "<";}
     break;
 
   case 67:
-#line 193 "./cfe.y"
+#line 201 "./cfe.y"
     {(yyval.chaine) = ">";}
     break;
 
   case 68:
-#line 194 "./cfe.y"
+#line 202 "./cfe.y"
     {(yyval.chaine) = ">=";}
     break;
 
   case 69:
-#line 195 "./cfe.y"
+#line 203 "./cfe.y"
     {(yyval.chaine) = "<=";}
     break;
 
   case 70:
-#line 196 "./cfe.y"
+#line 204 "./cfe.y"
     {(yyval.chaine) = "==";}
     break;
 
   case 71:
-#line 197 "./cfe.y"
+#line 205 "./cfe.y"
     {(yyval.chaine) = "!=";}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1928 "y.tab.c"
+#line 1936 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2138,7 +2146,7 @@ yyreturn:
 }
 
 
-#line 199 "./cfe.y"
+#line 207 "./cfe.y"
 
 
 int main(int argc, const char *argv[]){	

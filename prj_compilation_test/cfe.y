@@ -64,7 +64,11 @@ liste_expressions
 
 %%
 programme	:	
-		liste_declarations liste_fonctions {fprintf(stdout, "%s%s\n", $1,$2);}
+		liste_declarations liste_fonctions {
+            FILE* fichier = fopen("out.c","w");
+            fprintf(fichier, "%s%s\n", $1,$2);
+            fclose(fichier);
+        }
 ;
 liste_declarations	:	
 		liste_declarations declaration { $$ = concat(2, $1, $2);}
@@ -121,17 +125,21 @@ iteration	:
         char* L1 = newEtq();
         char* L2 = newEtq();
         
-        $$ = concat(14,"goto ",L1,";\n",L2,":",$5,L1,": if","(",$3,")","goto ",L2,"\n");
+        $$ = concat(14,"goto ",L1,";\n",L2,":",$5,L1,": if","(",$3,")","goto ",L2,";\n");
     }
 ;
 selection	:	
 		IF '(' condition ')' instruction %prec THEN 
         {   
             char* L = newEtq();
-            $$ = concat(9,"if","(!",$3,") goto ",L,"\n",$5,L,": ");
+            $$ = concat(9,"if","(!",$3,") goto ",L,";\n",$5,L,": ");
         
         }
-	|	IF '(' condition ')' instruction ELSE instruction {$$ = concat(9,"if","(!",$3,") goto L1\n",$5,"goto L2\n","L1: ",$7,"L2 : ");}
+	|	IF '(' condition ')' instruction ELSE instruction {
+            char* L1 = newEtq();
+            char* L2 = newEtq();
+            $$ = concat(16,"if","(",$3,") goto ",L1,";\n",$7,"goto ",L2,";\n",L1,": ",$5,"\n",L2,": ");
+        }
 	|	SWITCH '(' expression ')' instruction {$$ = concat( 5 , "switch","(",$3,")",$5);}
 	|	CASE CONSTANTE ':' instruction {$$ = concat(4,"case",$2,":",$4);}
 	|	DEFAULT ':' instruction {$$ = concat(3,"default",":",$3);}
