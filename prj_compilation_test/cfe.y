@@ -27,8 +27,14 @@ char* concat(int n_args, ...) {
    return result;
 }
 
-int i = 0;
-int* addresse_sur_i = &i;
+int noEtq = 1;
+    
+char* newEtq() {
+    char* nc = (char*) calloc(10, sizeof(char));
+    sprintf(nc,"L%d",noEtq++);
+    return nc;
+}
+
 
 %}
 %token<chaine> VOID INT FOR WHILE IF ELSE SWITCH CASE DEFAULT
@@ -107,13 +113,24 @@ instruction	:
 	|	affectation ';' {$$ = concat(2,$1,";\n");}
 	|	bloc {$$ = $1;}
 	|	appel {$$ = $1;}
-;
+; 
 iteration	:	
 		FOR '(' affectation ';' condition ';' affectation ')' instruction {$$ = concat(9,"for","(",$3,";",$5,";",$7,")",$9) ; }
-	|	WHILE '(' condition ')' instruction /*{$$ = concat(5,"while","(",$3,")",$5);}*/ {$$ = concat(7,"goto L1\n","L2:",$5,"L1: if","(",$3,") goto L2\n");}
+	|	WHILE '(' condition ')' instruction /*{$$ = concat(5,"while","(",$3,")",$5);}*/
+    {
+        char* L1 = newEtq();
+        char* L2 = newEtq();
+        
+        $$ = concat(14,"goto ",L1,";\n",L2,":",$5,L1,": if","(",$3,")","goto ",L2,"\n");
+    }
 ;
 selection	:	
-		IF '(' condition ')' instruction %prec THEN {$$ = concat(6,"if","(!",$3,") goto L\n",$5,"L: ");}
+		IF '(' condition ')' instruction %prec THEN 
+        {   
+            char* L = newEtq();
+            $$ = concat(9,"if","(!",$3,") goto ",L,"\n",$5,L,": ");
+        
+        }
 	|	IF '(' condition ')' instruction ELSE instruction {$$ = concat(9,"if","(!",$3,") goto L1\n",$5,"goto L2\n","L1: ",$7,"L2 : ");}
 	|	SWITCH '(' expression ')' instruction {$$ = concat( 5 , "switch","(",$3,")",$5);}
 	|	CASE CONSTANTE ':' instruction {$$ = concat(4,"case",$2,":",$4);}
