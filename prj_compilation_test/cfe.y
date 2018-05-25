@@ -28,10 +28,15 @@ char* concat(int n_args, ...) {
 }
 
 int noEtq = 1;
+int break_temp = 0;
     
 char* newEtq() {
     char* nc = (char*) calloc(10, sizeof(char));
     sprintf(nc,"L%d",noEtq++);
+    if(break_temp != 0){
+        sprintf(nc,"L%d",break_temp);
+        break_temp = 0;
+            }
     return nc;
 }
 
@@ -122,7 +127,7 @@ iteration	:
 		FOR '(' affectation ';' condition ';' affectation ')' instruction {
             char* L1 = newEtq();
             char* L2 = newEtq();
-            $$ = concat(18,$3,"\n",L1,":if(",$5,")","goto ",L2,";",$9,"\n",$7,"\n","goto ",L1,";\n",L2,":") ; 
+            $$ = concat(17,$3,"\n",L1,":if(",$5,")","goto ",L2,";",$9,$7,"\n","goto ",L1,";\n",L2,":") ; 
         }
 	|	WHILE '(' condition ')' instruction /*{$$ = concat(5,"while","(",$3,")",$5);}*/
     {
@@ -134,7 +139,7 @@ iteration	:
 ;
 selection	:	
 		IF '(' condition ')' instruction %prec THEN 
-        {   
+        {  
             char* L = newEtq();
             $$ = concat(9,"if","(!",$3,") goto ",L,";\n",$5,L,": ");
         
@@ -142,7 +147,7 @@ selection	:
 	|	IF '(' condition ')' instruction ELSE instruction {
             char* L1 = newEtq();
             char* L2 = newEtq();
-            $$ = concat(16,"if","(",$3,") goto ",L1,";\n",$7,"goto ",L2,";\n",L1,": ",$5,"\n",L2,": ");
+            $$ = concat(16,"if","(!(",$3,")) goto ",L2,";\n",$5,"goto ",L1,";\n",L2,": ",$7,"\n",L1,": ");
         }
 	|	SWITCH '(' expression ')' instruction {
     
@@ -152,7 +157,11 @@ selection	:
 	|	DEFAULT ':' instruction {$$ = concat(3,"default",":",$3);}
 ;
 saut	:	
-		BREAK ';' {$$ = concat(2,"break",";\n");}
+		BREAK ';' {
+            char* L = newEtq();
+            break_temp = --noEtq;
+            $$ = concat(3,"goto ",L,";\n");
+        }
 	|	RETURN ';' {$$ = concat(2,"return ",";\n");}
 	|	RETURN expression ';' {$$ = concat(3,"return ",$2,";\n");}
 ;

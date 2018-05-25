@@ -1,8 +1,11 @@
 int main() {
-    
-    
-    
-for (i = 0 ; i < 10 ; i=i+1 ){
-a = 5;
-}
+    if(i<5){
+        a=6;
+        break;
+        break;
+    }
+    else {
+        b = 5;
+        break;
+    }
 }
