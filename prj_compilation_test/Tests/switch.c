@@ -1,14 +1,13 @@
 extern int printd(int i);
 
 int main() {
-   int i,j;
-   i=3;
    switch(i) {
-      case 0: printd(0); break;
-      case 1: printd(1); break;
-      case 2: printd(2); break;
-      case 3: printd(3); 
-      case 4: printd(4);
-      default: printd(-1);
+       case 0: {i = 0;break;}
+      case 1: i = 1;
+      case 2: i = 2;
+       case 3: {i = 3;break;}
+       case 4: i = 4;
+       default : printd(9);
    }
+    a = 5;
 }

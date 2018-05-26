@@ -1,11 +1,10 @@
 int main() {
-    if(i<5){
-        a=6;
-        break;
-        break;
-    }
-    else {
-        b = 5;
-        break;
+    switch (a) {
+        case 1:
+            a = 1;
+            break;
+        case 2:
+            a = 2
+            break;
     }
 }

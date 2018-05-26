@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <assert.h>
 
 int yylex();
 
@@ -38,6 +39,74 @@ char* newEtq() {
         break_temp = 0;
             }
     return nc;
+}
+    
+
+typedef struct Case_instuction Case_instuction;
+struct Case_instuction
+{
+    char* cons;
+    char* instruction;
+};
+
+typedef struct Switcher Switcher;
+struct Switcher
+{
+    Case_instuction tab_case[100];
+    int n;
+};
+    
+Switcher switcher;
+char* conser[10];
+char* caser[10];
+int cpt_n = 0;
+    
+char** str_split(char* a_str, const char a_delim)
+{
+    char** result    = 0;
+    size_t count     = 0;
+    char* tmp        = a_str;
+    char* last_comma = 0;
+    char delim[2];
+    delim[0] = a_delim;
+    delim[1] = 0;
+
+    /* Count how many elements will be extracted. */
+    while (*tmp)
+    {
+        if (a_delim == *tmp)
+        {
+            count++;
+            last_comma = tmp;
+        }
+        tmp++;
+    }
+
+    /* Add space for trailing token. */
+    count += last_comma < (a_str + strlen(a_str) - 1);
+
+    /* Add space for terminating null string so caller
+       knows where the list of returned strings ends. */
+    count++;
+
+    result = malloc(sizeof(char*) * count);
+
+    if (result)
+    {
+        size_t idx  = 0;
+        char* token = strtok(a_str, delim);
+
+        while (token)
+        {
+            assert(idx < count);
+            *(result + idx++) = strdup(token);
+            token = strtok(0, delim);
+        }
+        assert(idx == count - 1);
+        *(result + idx) = 0;
+    }
+
+    return result;
 }
 
 
@@ -140,6 +209,7 @@ iteration	:
 selection	:	
 		IF '(' condition ')' instruction %prec THEN 
         {  
+            
             char* L = newEtq();
             $$ = concat(9,"if","(!",$3,") goto ",L,";\n",$5,L,": ");
         
@@ -150,10 +220,27 @@ selection	:
             $$ = concat(16,"if","(!(",$3,")) goto ",L2,";\n",$5,"goto ",L1,";\n",L2,": ",$7,"\n",L1,": ");
         }
 	|	SWITCH '(' expression ')' instruction {
-    
-            $$ = concat( 5 , "switch","(",$3,")",$5);
+            int i = -1;
+            $$="";
+            printf("\n\n : %s",$$);
+            char* Ld = newEtq();
+            while(i++<cpt_n){
+            
+                char* L = newEtq();
+                
+                $$ = concat(12,$$,"if","(!(",$3,"==",conser[i],")) goto ",L,";\n",caser[i],L,": ");
+                printf("%s\n%d\n",$$,i);
+            }
+            $$ = concat(3,$$,Ld,":");
+            printf("%s",Ld);
+            cpt_n = 0;
         }
-	|	CASE CONSTANTE ':' instruction {$$ = concat(4,"case",$2,":",$4);}
+	|	CASE CONSTANTE ':' instruction {
+            printf("$2==%s\n",$2);
+            conser[cpt_n] = $2;
+            caser[cpt_n++] = $4;
+            $$="";
+            }
 	|	DEFAULT ':' instruction {$$ = concat(3,"default",":",$3);}
 ;
 saut	:	
