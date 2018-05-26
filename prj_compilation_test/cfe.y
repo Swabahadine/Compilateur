@@ -220,19 +220,18 @@ selection	:
             $$ = concat(16,"if","(!(",$3,")) goto ",L2,";\n",$5,"goto ",L1,";\n",L2,": ",$7,"\n",L1,": ");
         }
 	|	SWITCH '(' expression ')' instruction {
-            int i = -1;
+            int i = 0;
             $$="";
-            printf("\n\n : %s",$$);
             char* Ld = newEtq();
-            while(i++<cpt_n){
+            while(i<cpt_n){
             
                 char* L = newEtq();
                 
                 $$ = concat(12,$$,"if","(!(",$3,"==",conser[i],")) goto ",L,";\n",caser[i],L,": ");
-                printf("%s\n%d\n",$$,i);
+                i=i+1;
             }
-            $$ = concat(3,$$,Ld,":");
-            printf("%s",Ld);
+            $$ = concat(4,$$,"\n",Ld,":");
+            
             cpt_n = 0;
         }
 	|	CASE CONSTANTE ':' instruction {
