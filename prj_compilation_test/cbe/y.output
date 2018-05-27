@@ -1,0 +1,1338 @@
+Terminals which are not used
+
+   FOR
+   WHILE
+   ELSE
+   SWITCH
+   CASE
+   DEFAULT
+   BREAK
+   THEN
+   OP
+
+
+Grammar
+
+    0 $accept: programme $end
+
+    1 programme: liste_declarations liste_fonctions
+
+    2 liste_declarations: liste_declarations declaration
+    3                   | /* empty */
+
+    4 liste_fonctions: liste_fonctions fonction
+    5                | fonction
+
+    6 declaration: type liste_declarateurs ';'
+
+    7 liste_declarateurs: liste_declarateurs ',' declarateur
+    8                   | declarateur
+
+    9 declarateur: IDENTIFICATEUR
+   10            | MUL IDENTIFICATEUR
+   11            | IDENTIFICATEUR '[' CONSTANTE ']'
+
+   12 fonction: type IDENTIFICATEUR '(' liste_parms ')' '{' liste_declarations liste_instructions '}'
+   13         | EXTERN type IDENTIFICATEUR '(' liste_parms ')' ';'
+
+   14 type: VOID
+   15     | INT
+
+   16 liste_parms: parm
+   17            | liste_parms ',' parm
+   18            | /* empty */
+
+   19 parm: INT IDENTIFICATEUR
+
+   20 liste_instructions: liste_instructions instruction
+   21                   | /* empty */
+
+   22 instruction: instructionlabelisee
+   23            | saut
+   24            | affectation
+   25            | bloc
+   26            | appel
+
+   27 saut: GOTO IDENTIFICATEUR ';'
+   28     | IF '(' condition ')' GOTO IDENTIFICATEUR ';'
+   29     | RETURN scalaire ';'
+   30     | RETURN ';'
+
+   31 instructionlabelisee: IDENTIFICATEUR ':' instruction
+
+   32 affectation: IDENTIFICATEUR '=' expression ';'
+   33            | IDENTIFICATEUR '=' MUL IDENTIFICATEUR ';'
+   34            | MUL IDENTIFICATEUR '=' scalaire ';'
+
+   35 bloc: '{' liste_declarations liste_instructions '}'
+
+   36 appel: IDENTIFICATEUR '(' liste_scalaires ')' ';'
+
+   37 scalaire: IDENTIFICATEUR
+   38         | CONSTANTE
+
+   39 expression: scalaire binary_op scalaire
+   40           | MOINS scalaire
+   41           | scalaire
+   42           | IDENTIFICATEUR '(' liste_scalaires ')'
+
+   43 liste_scalaires: scalaire
+   44                | liste_scalaires ',' scalaire
+   45                | /* empty */
+
+   46 condition: NOT IDENTIFICATEUR
+   47          | NOT '(' condition ')'
+   48          | '(' condition ')'
+   49          | scalaire binary_rel scalaire
+   50          | scalaire binary_comp scalaire
+
+   51 binary_op: PLUS
+   52          | MOINS
+   53          | MUL
+   54          | DIV
+   55          | LSHIFT
+   56          | RSHIFT
+   57          | BAND
+   58          | BOR
+
+   59 binary_rel: LAND
+   60           | LOR
+
+   61 binary_comp: LT
+   62            | GT
+   63            | GEQ
+   64            | LEQ
+   65            | EQ
+   66            | NEQ
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 12 13 28 36 42 47 48
+')' (41) 12 13 28 36 42 47 48
+',' (44) 7 17 44
+':' (58) 31
+';' (59) 6 13 27 28 29 30 32 33 34 36
+'=' (61) 32 33 34
+'[' (91) 11
+']' (93) 11
+'{' (123) 12 35
+'}' (125) 12 35
+error (256)
+IDENTIFICATEUR (258) 9 10 11 12 13 19 27 28 31 32 33 34 36 37 42 46
+CONSTANTE (259) 11 38
+VOID (260) 14
+INT (261) 15 19
+FOR (262)
+WHILE (263)
+IF (264) 28
+ELSE (265)
+SWITCH (266)
+CASE (267)
+DEFAULT (268)
+BREAK (269)
+RETURN (270) 29 30
+PLUS (271) 51
+MOINS (272) 40 52
+MUL (273) 10 33 34 53
+DIV (274) 54
+LSHIFT (275) 55
+RSHIFT (276) 56
+BAND (277) 57
+BOR (278) 58
+LAND (279) 59
+LOR (280) 60
+LT (281) 61
+GT (282) 62
+GEQ (283) 63
+LEQ (284) 64
+EQ (285) 65
+NEQ (286) 66
+NOT (287) 46 47
+EXTERN (288) 13
+GOTO (289) 27 28
+THEN (290)
+OP (291)
+REL (292)
+
+
+Nonterminals, with rules where they appear
+
+$accept (48)
+    on left: 0
+programme (49)
+    on left: 1, on right: 0
+liste_declarations (50)
+    on left: 2 3, on right: 1 2 12 35
+liste_fonctions (51)
+    on left: 4 5, on right: 1 4
+declaration (52)
+    on left: 6, on right: 2
+liste_declarateurs (53)
+    on left: 7 8, on right: 6 7
+declarateur (54)
+    on left: 9 10 11, on right: 7 8
+fonction (55)
+    on left: 12 13, on right: 4 5
+type (56)
+    on left: 14 15, on right: 6 12 13
+liste_parms (57)
+    on left: 16 17 18, on right: 12 13 17
+parm (58)
+    on left: 19, on right: 16 17
+liste_instructions (59)
+    on left: 20 21, on right: 12 20 35
+instruction (60)
+    on left: 22 23 24 25 26, on right: 20 31
+saut (61)
+    on left: 27 28 29 30, on right: 23
+instructionlabelisee (62)
+    on left: 31, on right: 22
+affectation (63)
+    on left: 32 33 34, on right: 24
+bloc (64)
+    on left: 35, on right: 25
+appel (65)
+    on left: 36, on right: 26
+scalaire (66)
+    on left: 37 38, on right: 29 34 39 40 41 43 44 49 50
+expression (67)
+    on left: 39 40 41 42, on right: 32
+liste_scalaires (68)
+    on left: 43 44 45, on right: 36 42 44
+condition (69)
+    on left: 46 47 48 49 50, on right: 28 47 48
+binary_op (70)
+    on left: 51 52 53 54 55 56 57 58, on right: 39
+binary_rel (71)
+    on left: 59 60, on right: 49
+binary_comp (72)
+    on left: 61 62 63 64 65 66, on right: 50
+
+
+state 0
+
+    0 $accept: . programme $end
+
+    $default  reduce using rule 3 (liste_declarations)
+
+    programme           go to state 1
+    liste_declarations  go to state 2
+
+
+state 1
+
+    0 $accept: programme . $end
+
+    $end  shift, and go to state 3
+
+
+state 2
+
+    1 programme: liste_declarations . liste_fonctions
+    2 liste_declarations: liste_declarations . declaration
+
+    VOID    shift, and go to state 4
+    INT     shift, and go to state 5
+    EXTERN  shift, and go to state 6
+
+    liste_fonctions  go to state 7
+    declaration      go to state 8
+    fonction         go to state 9
+    type             go to state 10
+
+
+state 3
+
+    0 $accept: programme $end .
+
+    $default  accept
+
+
+state 4
+
+   14 type: VOID .
+
+    $default  reduce using rule 14 (type)
+
+
+state 5
+
+   15 type: INT .
+
+    $default  reduce using rule 15 (type)
+
+
+state 6
+
+   13 fonction: EXTERN . type IDENTIFICATEUR '(' liste_parms ')' ';'
+
+    VOID  shift, and go to state 4
+    INT   shift, and go to state 5
+
+    type  go to state 11
+
+
+state 7
+
+    1 programme: liste_declarations liste_fonctions .
+    4 liste_fonctions: liste_fonctions . fonction
+
+    VOID    shift, and go to state 4
+    INT     shift, and go to state 5
+    EXTERN  shift, and go to state 6
+
+    $default  reduce using rule 1 (programme)
+
+    fonction  go to state 12
+    type      go to state 13
+
+
+state 8
+
+    2 liste_declarations: liste_declarations declaration .
+
+    $default  reduce using rule 2 (liste_declarations)
+
+
+state 9
+
+    5 liste_fonctions: fonction .
+
+    $default  reduce using rule 5 (liste_fonctions)
+
+
+state 10
+
+    6 declaration: type . liste_declarateurs ';'
+   12 fonction: type . IDENTIFICATEUR '(' liste_parms ')' '{' liste_declarations liste_instructions '}'
+
+    IDENTIFICATEUR  shift, and go to state 14
+    MUL             shift, and go to state 15
+
+    liste_declarateurs  go to state 16
+    declarateur         go to state 17
+
+
+state 11
+
+   13 fonction: EXTERN type . IDENTIFICATEUR '(' liste_parms ')' ';'
+
+    IDENTIFICATEUR  shift, and go to state 18
+
+
+state 12
+
+    4 liste_fonctions: liste_fonctions fonction .
+
+    $default  reduce using rule 4 (liste_fonctions)
+
+
+state 13
+
+   12 fonction: type . IDENTIFICATEUR '(' liste_parms ')' '{' liste_declarations liste_instructions '}'
+
+    IDENTIFICATEUR  shift, and go to state 19
+
+
+state 14
+
+    9 declarateur: IDENTIFICATEUR .
+   11            | IDENTIFICATEUR . '[' CONSTANTE ']'
+   12 fonction: type IDENTIFICATEUR . '(' liste_parms ')' '{' liste_declarations liste_instructions '}'
+
+    '['  shift, and go to state 20
+    '('  shift, and go to state 21
+
+    $default  reduce using rule 9 (declarateur)
+
+
+state 15
+
+   10 declarateur: MUL . IDENTIFICATEUR
+
+    IDENTIFICATEUR  shift, and go to state 22
+
+
+state 16
+
+    6 declaration: type liste_declarateurs . ';'
+    7 liste_declarateurs: liste_declarateurs . ',' declarateur
+
+    ';'  shift, and go to state 23
+    ','  shift, and go to state 24
+
+
+state 17
+
+    8 liste_declarateurs: declarateur .
+
+    $default  reduce using rule 8 (liste_declarateurs)
+
+
+state 18
+
+   13 fonction: EXTERN type IDENTIFICATEUR . '(' liste_parms ')' ';'
+
+    '('  shift, and go to state 25
+
+
+state 19
+
+   12 fonction: type IDENTIFICATEUR . '(' liste_parms ')' '{' liste_declarations liste_instructions '}'
+
+    '('  shift, and go to state 21
+
+
+state 20
+
+   11 declarateur: IDENTIFICATEUR '[' . CONSTANTE ']'
+
+    CONSTANTE  shift, and go to state 26
+
+
+state 21
+
+   12 fonction: type IDENTIFICATEUR '(' . liste_parms ')' '{' liste_declarations liste_instructions '}'
+
+    INT  shift, and go to state 27
+
+    $default  reduce using rule 18 (liste_parms)
+
+    liste_parms  go to state 28
+    parm         go to state 29
+
+
+state 22
+
+   10 declarateur: MUL IDENTIFICATEUR .
+
+    $default  reduce using rule 10 (declarateur)
+
+
+state 23
+
+    6 declaration: type liste_declarateurs ';' .
+
+    $default  reduce using rule 6 (declaration)
+
+
+state 24
+
+    7 liste_declarateurs: liste_declarateurs ',' . declarateur
+
+    IDENTIFICATEUR  shift, and go to state 30
+    MUL             shift, and go to state 15
+
+    declarateur  go to state 31
+
+
+state 25
+
+   13 fonction: EXTERN type IDENTIFICATEUR '(' . liste_parms ')' ';'
+
+    INT  shift, and go to state 27
+
+    $default  reduce using rule 18 (liste_parms)
+
+    liste_parms  go to state 32
+    parm         go to state 29
+
+
+state 26
+
+   11 declarateur: IDENTIFICATEUR '[' CONSTANTE . ']'
+
+    ']'  shift, and go to state 33
+
+
+state 27
+
+   19 parm: INT . IDENTIFICATEUR
+
+    IDENTIFICATEUR  shift, and go to state 34
+
+
+state 28
+
+   12 fonction: type IDENTIFICATEUR '(' liste_parms . ')' '{' liste_declarations liste_instructions '}'
+   17 liste_parms: liste_parms . ',' parm
+
+    ','  shift, and go to state 35
+    ')'  shift, and go to state 36
+
+
+state 29
+
+   16 liste_parms: parm .
+
+    $default  reduce using rule 16 (liste_parms)
+
+
+state 30
+
+    9 declarateur: IDENTIFICATEUR .
+   11            | IDENTIFICATEUR . '[' CONSTANTE ']'
+
+    '['  shift, and go to state 20
+
+    $default  reduce using rule 9 (declarateur)
+
+
+state 31
+
+    7 liste_declarateurs: liste_declarateurs ',' declarateur .
+
+    $default  reduce using rule 7 (liste_declarateurs)
+
+
+state 32
+
+   13 fonction: EXTERN type IDENTIFICATEUR '(' liste_parms . ')' ';'
+   17 liste_parms: liste_parms . ',' parm
+
+    ','  shift, and go to state 35
+    ')'  shift, and go to state 37
+
+
+state 33
+
+   11 declarateur: IDENTIFICATEUR '[' CONSTANTE ']' .
+
+    $default  reduce using rule 11 (declarateur)
+
+
+state 34
+
+   19 parm: INT IDENTIFICATEUR .
+
+    $default  reduce using rule 19 (parm)
+
+
+state 35
+
+   17 liste_parms: liste_parms ',' . parm
+
+    INT  shift, and go to state 27
+
+    parm  go to state 38
+
+
+state 36
+
+   12 fonction: type IDENTIFICATEUR '(' liste_parms ')' . '{' liste_declarations liste_instructions '}'
+
+    '{'  shift, and go to state 39
+
+
+state 37
+
+   13 fonction: EXTERN type IDENTIFICATEUR '(' liste_parms ')' . ';'
+
+    ';'  shift, and go to state 40
+
+
+state 38
+
+   17 liste_parms: liste_parms ',' parm .
+
+    $default  reduce using rule 17 (liste_parms)
+
+
+state 39
+
+   12 fonction: type IDENTIFICATEUR '(' liste_parms ')' '{' . liste_declarations liste_instructions '}'
+
+    $default  reduce using rule 3 (liste_declarations)
+
+    liste_declarations  go to state 41
+
+
+state 40
+
+   13 fonction: EXTERN type IDENTIFICATEUR '(' liste_parms ')' ';' .
+
+    $default  reduce using rule 13 (fonction)
+
+
+state 41
+
+    2 liste_declarations: liste_declarations . declaration
+   12 fonction: type IDENTIFICATEUR '(' liste_parms ')' '{' liste_declarations . liste_instructions '}'
+
+    VOID  shift, and go to state 4
+    INT   shift, and go to state 5
+
+    $default  reduce using rule 21 (liste_instructions)
+
+    declaration         go to state 8
+    type                go to state 42
+    liste_instructions  go to state 43
+
+
+state 42
+
+    6 declaration: type . liste_declarateurs ';'
+
+    IDENTIFICATEUR  shift, and go to state 30
+    MUL             shift, and go to state 15
+
+    liste_declarateurs  go to state 16
+    declarateur         go to state 17
+
+
+state 43
+
+   12 fonction: type IDENTIFICATEUR '(' liste_parms ')' '{' liste_declarations liste_instructions . '}'
+   20 liste_instructions: liste_instructions . instruction
+
+    IDENTIFICATEUR  shift, and go to state 44
+    IF              shift, and go to state 45
+    RETURN          shift, and go to state 46
+    MUL             shift, and go to state 47
+    GOTO            shift, and go to state 48
+    '{'             shift, and go to state 49
+    '}'             shift, and go to state 50
+
+    instruction           go to state 51
+    saut                  go to state 52
+    instructionlabelisee  go to state 53
+    affectation           go to state 54
+    bloc                  go to state 55
+    appel                 go to state 56
+
+
+state 44
+
+   31 instructionlabelisee: IDENTIFICATEUR . ':' instruction
+   32 affectation: IDENTIFICATEUR . '=' expression ';'
+   33            | IDENTIFICATEUR . '=' MUL IDENTIFICATEUR ';'
+   36 appel: IDENTIFICATEUR . '(' liste_scalaires ')' ';'
+
+    '('  shift, and go to state 57
+    ':'  shift, and go to state 58
+    '='  shift, and go to state 59
+
+
+state 45
+
+   28 saut: IF . '(' condition ')' GOTO IDENTIFICATEUR ';'
+
+    '('  shift, and go to state 60
+
+
+state 46
+
+   29 saut: RETURN . scalaire ';'
+   30     | RETURN . ';'
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+    ';'             shift, and go to state 63
+
+    scalaire  go to state 64
+
+
+state 47
+
+   34 affectation: MUL . IDENTIFICATEUR '=' scalaire ';'
+
+    IDENTIFICATEUR  shift, and go to state 65
+
+
+state 48
+
+   27 saut: GOTO . IDENTIFICATEUR ';'
+
+    IDENTIFICATEUR  shift, and go to state 66
+
+
+state 49
+
+   35 bloc: '{' . liste_declarations liste_instructions '}'
+
+    $default  reduce using rule 3 (liste_declarations)
+
+    liste_declarations  go to state 67
+
+
+state 50
+
+   12 fonction: type IDENTIFICATEUR '(' liste_parms ')' '{' liste_declarations liste_instructions '}' .
+
+    $default  reduce using rule 12 (fonction)
+
+
+state 51
+
+   20 liste_instructions: liste_instructions instruction .
+
+    $default  reduce using rule 20 (liste_instructions)
+
+
+state 52
+
+   23 instruction: saut .
+
+    $default  reduce using rule 23 (instruction)
+
+
+state 53
+
+   22 instruction: instructionlabelisee .
+
+    $default  reduce using rule 22 (instruction)
+
+
+state 54
+
+   24 instruction: affectation .
+
+    $default  reduce using rule 24 (instruction)
+
+
+state 55
+
+   25 instruction: bloc .
+
+    $default  reduce using rule 25 (instruction)
+
+
+state 56
+
+   26 instruction: appel .
+
+    $default  reduce using rule 26 (instruction)
+
+
+state 57
+
+   36 appel: IDENTIFICATEUR '(' . liste_scalaires ')' ';'
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+
+    $default  reduce using rule 45 (liste_scalaires)
+
+    scalaire         go to state 68
+    liste_scalaires  go to state 69
+
+
+state 58
+
+   31 instructionlabelisee: IDENTIFICATEUR ':' . instruction
+
+    IDENTIFICATEUR  shift, and go to state 44
+    IF              shift, and go to state 45
+    RETURN          shift, and go to state 46
+    MUL             shift, and go to state 47
+    GOTO            shift, and go to state 48
+    '{'             shift, and go to state 49
+
+    instruction           go to state 70
+    saut                  go to state 52
+    instructionlabelisee  go to state 53
+    affectation           go to state 54
+    bloc                  go to state 55
+    appel                 go to state 56
+
+
+state 59
+
+   32 affectation: IDENTIFICATEUR '=' . expression ';'
+   33            | IDENTIFICATEUR '=' . MUL IDENTIFICATEUR ';'
+
+    IDENTIFICATEUR  shift, and go to state 71
+    CONSTANTE       shift, and go to state 62
+    MOINS           shift, and go to state 72
+    MUL             shift, and go to state 73
+
+    scalaire    go to state 74
+    expression  go to state 75
+
+
+state 60
+
+   28 saut: IF '(' . condition ')' GOTO IDENTIFICATEUR ';'
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+    NOT             shift, and go to state 76
+    '('             shift, and go to state 77
+
+    scalaire   go to state 78
+    condition  go to state 79
+
+
+state 61
+
+   37 scalaire: IDENTIFICATEUR .
+
+    $default  reduce using rule 37 (scalaire)
+
+
+state 62
+
+   38 scalaire: CONSTANTE .
+
+    $default  reduce using rule 38 (scalaire)
+
+
+state 63
+
+   30 saut: RETURN ';' .
+
+    $default  reduce using rule 30 (saut)
+
+
+state 64
+
+   29 saut: RETURN scalaire . ';'
+
+    ';'  shift, and go to state 80
+
+
+state 65
+
+   34 affectation: MUL IDENTIFICATEUR . '=' scalaire ';'
+
+    '='  shift, and go to state 81
+
+
+state 66
+
+   27 saut: GOTO IDENTIFICATEUR . ';'
+
+    ';'  shift, and go to state 82
+
+
+state 67
+
+    2 liste_declarations: liste_declarations . declaration
+   35 bloc: '{' liste_declarations . liste_instructions '}'
+
+    VOID  shift, and go to state 4
+    INT   shift, and go to state 5
+
+    $default  reduce using rule 21 (liste_instructions)
+
+    declaration         go to state 8
+    type                go to state 42
+    liste_instructions  go to state 83
+
+
+state 68
+
+   43 liste_scalaires: scalaire .
+
+    $default  reduce using rule 43 (liste_scalaires)
+
+
+state 69
+
+   36 appel: IDENTIFICATEUR '(' liste_scalaires . ')' ';'
+   44 liste_scalaires: liste_scalaires . ',' scalaire
+
+    ','  shift, and go to state 84
+    ')'  shift, and go to state 85
+
+
+state 70
+
+   31 instructionlabelisee: IDENTIFICATEUR ':' instruction .
+
+    $default  reduce using rule 31 (instructionlabelisee)
+
+
+state 71
+
+   37 scalaire: IDENTIFICATEUR .
+   42 expression: IDENTIFICATEUR . '(' liste_scalaires ')'
+
+    '('  shift, and go to state 86
+
+    $default  reduce using rule 37 (scalaire)
+
+
+state 72
+
+   40 expression: MOINS . scalaire
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+
+    scalaire  go to state 87
+
+
+state 73
+
+   33 affectation: IDENTIFICATEUR '=' MUL . IDENTIFICATEUR ';'
+
+    IDENTIFICATEUR  shift, and go to state 88
+
+
+state 74
+
+   39 expression: scalaire . binary_op scalaire
+   41           | scalaire .
+
+    PLUS    shift, and go to state 89
+    MOINS   shift, and go to state 90
+    MUL     shift, and go to state 91
+    DIV     shift, and go to state 92
+    LSHIFT  shift, and go to state 93
+    RSHIFT  shift, and go to state 94
+    BAND    shift, and go to state 95
+    BOR     shift, and go to state 96
+
+    $default  reduce using rule 41 (expression)
+
+    binary_op  go to state 97
+
+
+state 75
+
+   32 affectation: IDENTIFICATEUR '=' expression . ';'
+
+    ';'  shift, and go to state 98
+
+
+state 76
+
+   46 condition: NOT . IDENTIFICATEUR
+   47          | NOT . '(' condition ')'
+
+    IDENTIFICATEUR  shift, and go to state 99
+    '('             shift, and go to state 100
+
+
+state 77
+
+   48 condition: '(' . condition ')'
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+    NOT             shift, and go to state 76
+    '('             shift, and go to state 77
+
+    scalaire   go to state 78
+    condition  go to state 101
+
+
+state 78
+
+   49 condition: scalaire . binary_rel scalaire
+   50          | scalaire . binary_comp scalaire
+
+    LAND  shift, and go to state 102
+    LOR   shift, and go to state 103
+    LT    shift, and go to state 104
+    GT    shift, and go to state 105
+    GEQ   shift, and go to state 106
+    LEQ   shift, and go to state 107
+    EQ    shift, and go to state 108
+    NEQ   shift, and go to state 109
+
+    binary_rel   go to state 110
+    binary_comp  go to state 111
+
+
+state 79
+
+   28 saut: IF '(' condition . ')' GOTO IDENTIFICATEUR ';'
+
+    ')'  shift, and go to state 112
+
+
+state 80
+
+   29 saut: RETURN scalaire ';' .
+
+    $default  reduce using rule 29 (saut)
+
+
+state 81
+
+   34 affectation: MUL IDENTIFICATEUR '=' . scalaire ';'
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+
+    scalaire  go to state 113
+
+
+state 82
+
+   27 saut: GOTO IDENTIFICATEUR ';' .
+
+    $default  reduce using rule 27 (saut)
+
+
+state 83
+
+   20 liste_instructions: liste_instructions . instruction
+   35 bloc: '{' liste_declarations liste_instructions . '}'
+
+    IDENTIFICATEUR  shift, and go to state 44
+    IF              shift, and go to state 45
+    RETURN          shift, and go to state 46
+    MUL             shift, and go to state 47
+    GOTO            shift, and go to state 48
+    '{'             shift, and go to state 49
+    '}'             shift, and go to state 114
+
+    instruction           go to state 51
+    saut                  go to state 52
+    instructionlabelisee  go to state 53
+    affectation           go to state 54
+    bloc                  go to state 55
+    appel                 go to state 56
+
+
+state 84
+
+   44 liste_scalaires: liste_scalaires ',' . scalaire
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+
+    scalaire  go to state 115
+
+
+state 85
+
+   36 appel: IDENTIFICATEUR '(' liste_scalaires ')' . ';'
+
+    ';'  shift, and go to state 116
+
+
+state 86
+
+   42 expression: IDENTIFICATEUR '(' . liste_scalaires ')'
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+
+    $default  reduce using rule 45 (liste_scalaires)
+
+    scalaire         go to state 68
+    liste_scalaires  go to state 117
+
+
+state 87
+
+   40 expression: MOINS scalaire .
+
+    $default  reduce using rule 40 (expression)
+
+
+state 88
+
+   33 affectation: IDENTIFICATEUR '=' MUL IDENTIFICATEUR . ';'
+
+    ';'  shift, and go to state 118
+
+
+state 89
+
+   51 binary_op: PLUS .
+
+    $default  reduce using rule 51 (binary_op)
+
+
+state 90
+
+   52 binary_op: MOINS .
+
+    $default  reduce using rule 52 (binary_op)
+
+
+state 91
+
+   53 binary_op: MUL .
+
+    $default  reduce using rule 53 (binary_op)
+
+
+state 92
+
+   54 binary_op: DIV .
+
+    $default  reduce using rule 54 (binary_op)
+
+
+state 93
+
+   55 binary_op: LSHIFT .
+
+    $default  reduce using rule 55 (binary_op)
+
+
+state 94
+
+   56 binary_op: RSHIFT .
+
+    $default  reduce using rule 56 (binary_op)
+
+
+state 95
+
+   57 binary_op: BAND .
+
+    $default  reduce using rule 57 (binary_op)
+
+
+state 96
+
+   58 binary_op: BOR .
+
+    $default  reduce using rule 58 (binary_op)
+
+
+state 97
+
+   39 expression: scalaire binary_op . scalaire
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+
+    scalaire  go to state 119
+
+
+state 98
+
+   32 affectation: IDENTIFICATEUR '=' expression ';' .
+
+    $default  reduce using rule 32 (affectation)
+
+
+state 99
+
+   46 condition: NOT IDENTIFICATEUR .
+
+    $default  reduce using rule 46 (condition)
+
+
+state 100
+
+   47 condition: NOT '(' . condition ')'
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+    NOT             shift, and go to state 76
+    '('             shift, and go to state 77
+
+    scalaire   go to state 78
+    condition  go to state 120
+
+
+state 101
+
+   48 condition: '(' condition . ')'
+
+    ')'  shift, and go to state 121
+
+
+state 102
+
+   59 binary_rel: LAND .
+
+    $default  reduce using rule 59 (binary_rel)
+
+
+state 103
+
+   60 binary_rel: LOR .
+
+    $default  reduce using rule 60 (binary_rel)
+
+
+state 104
+
+   61 binary_comp: LT .
+
+    $default  reduce using rule 61 (binary_comp)
+
+
+state 105
+
+   62 binary_comp: GT .
+
+    $default  reduce using rule 62 (binary_comp)
+
+
+state 106
+
+   63 binary_comp: GEQ .
+
+    $default  reduce using rule 63 (binary_comp)
+
+
+state 107
+
+   64 binary_comp: LEQ .
+
+    $default  reduce using rule 64 (binary_comp)
+
+
+state 108
+
+   65 binary_comp: EQ .
+
+    $default  reduce using rule 65 (binary_comp)
+
+
+state 109
+
+   66 binary_comp: NEQ .
+
+    $default  reduce using rule 66 (binary_comp)
+
+
+state 110
+
+   49 condition: scalaire binary_rel . scalaire
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+
+    scalaire  go to state 122
+
+
+state 111
+
+   50 condition: scalaire binary_comp . scalaire
+
+    IDENTIFICATEUR  shift, and go to state 61
+    CONSTANTE       shift, and go to state 62
+
+    scalaire  go to state 123
+
+
+state 112
+
+   28 saut: IF '(' condition ')' . GOTO IDENTIFICATEUR ';'
+
+    GOTO  shift, and go to state 124
+
+
+state 113
+
+   34 affectation: MUL IDENTIFICATEUR '=' scalaire . ';'
+
+    ';'  shift, and go to state 125
+
+
+state 114
+
+   35 bloc: '{' liste_declarations liste_instructions '}' .
+
+    $default  reduce using rule 35 (bloc)
+
+
+state 115
+
+   44 liste_scalaires: liste_scalaires ',' scalaire .
+
+    $default  reduce using rule 44 (liste_scalaires)
+
+
+state 116
+
+   36 appel: IDENTIFICATEUR '(' liste_scalaires ')' ';' .
+
+    $default  reduce using rule 36 (appel)
+
+
+state 117
+
+   42 expression: IDENTIFICATEUR '(' liste_scalaires . ')'
+   44 liste_scalaires: liste_scalaires . ',' scalaire
+
+    ','  shift, and go to state 84
+    ')'  shift, and go to state 126
+
+
+state 118
+
+   33 affectation: IDENTIFICATEUR '=' MUL IDENTIFICATEUR ';' .
+
+    $default  reduce using rule 33 (affectation)
+
+
+state 119
+
+   39 expression: scalaire binary_op scalaire .
+
+    $default  reduce using rule 39 (expression)
+
+
+state 120
+
+   47 condition: NOT '(' condition . ')'
+
+    ')'  shift, and go to state 127
+
+
+state 121
+
+   48 condition: '(' condition ')' .
+
+    $default  reduce using rule 48 (condition)
+
+
+state 122
+
+   49 condition: scalaire binary_rel scalaire .
+
+    $default  reduce using rule 49 (condition)
+
+
+state 123
+
+   50 condition: scalaire binary_comp scalaire .
+
+    $default  reduce using rule 50 (condition)
+
+
+state 124
+
+   28 saut: IF '(' condition ')' GOTO . IDENTIFICATEUR ';'
+
+    IDENTIFICATEUR  shift, and go to state 128
+
+
+state 125
+
+   34 affectation: MUL IDENTIFICATEUR '=' scalaire ';' .
+
+    $default  reduce using rule 34 (affectation)
+
+
+state 126
+
+   42 expression: IDENTIFICATEUR '(' liste_scalaires ')' .
+
+    $default  reduce using rule 42 (expression)
+
+
+state 127
+
+   47 condition: NOT '(' condition ')' .
+
+    $default  reduce using rule 47 (condition)
+
+
+state 128
+
+   28 saut: IF '(' condition ')' GOTO IDENTIFICATEUR . ';'
+
+    ';'  shift, and go to state 129
+
+
+state 129
+
+   28 saut: IF '(' condition ')' GOTO IDENTIFICATEUR ';' .
+
+    $default  reduce using rule 28 (saut)

@@ -8,11 +8,12 @@
 int yylex();
 
 int yylineno;
-void yyerror(const char *str)
-{
-    fprintf(stderr,"Error | Line: %d\n%s\n",yylineno,str);
-	exit(1);
+char* yytext;
+void yyerror(char *s) {
+	fprintf(stderr, "Error: %s ligne %d token:%s\n", s, yylineno, yytext);
+	exit(1); /* le programe s'arrete lors d'une erreur de syntaxe */
 }
+
 char* concat(int n_args, ...) {
 	/* Fonction a arité variable qui concactène des chaines de caractères */
    va_list valist;

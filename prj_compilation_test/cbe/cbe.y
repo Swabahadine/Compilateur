@@ -1,4 +1,18 @@
 %{
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+#include <assert.h>
+
+int yylex();
+int yylineno;
+char* yytext;
+void yyerror(char *s) {
+	fprintf(stderr, "Error: %s ligne %d token:%s\n", s, yylineno, yytext);
+	exit(1); /* le programe s'arrete lors d'une erreur de syntaxe */
+}
+
 %}
 %token IDENTIFICATEUR CONSTANTE VOID INT FOR WHILE IF ELSE SWITCH CASE DEFAULT
 %token BREAK RETURN PLUS MOINS MUL DIV LSHIFT RSHIFT BAND BOR LAND LOR LT GT 
@@ -45,8 +59,11 @@ type	:
 		VOID
 	|	INT
 ;
-liste_parms	:	
-		liste_parms ',' parm
+liste_parms	: 
+		parm 
+	|	
+		liste_parms ',' parm 
+
 	|	
 ;
 parm	:	
@@ -69,10 +86,10 @@ saut	:
         |       RETURN scalaire ';'
 	|	RETURN ';'
 ;
-instructionlabelisee: IDENTIFICATEUR ':' instruction ';'
+instructionlabelisee: IDENTIFICATEUR ':' instruction 
 ;
 affectation	:	
-		IDENTIFICATEUR '=' expression ';'
+		IDENTIFICATEUR '=' expression ';' {printf("affectation\n");}
 		| IDENTIFICATEUR '=' MUL IDENTIFICATEUR ';'
 		| MUL IDENTIFICATEUR '=' scalaire ';'
 ;
@@ -90,14 +107,18 @@ expression	:
 		scalaire binary_op scalaire 
 	|	MOINS scalaire
 |       scalaire
-|	IDENTIFICATEUR '(' liste_scalaires ')'
+|	IDENTIFICATEUR '(' liste_scalaires ')' {printf("expression\n");}
 ;
-liste_scalaires	:	
-		liste_scalaires ',' scalaire
+liste_scalaires	:
+
+scalaire	|
+		liste_scalaires ',' scalaire { printf("liste_scalaire\n");}
 	|
 ;
 condition	:	
-		NOT IDENTIFICATEUR
+		NOT IDENTIFICATEUR 
+	|	NOT '(' condition ')'
+	|	'(' condition ')'
 	|	scalaire binary_rel scalaire %prec REL
 	|	scalaire binary_comp scalaire
 ;
@@ -124,3 +145,7 @@ binary_comp	:
 	|	NEQ
 ;
 %%
+int main(int argc, const char *argv[]){	
+ 	yyparse();
+ }
+
